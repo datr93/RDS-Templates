@@ -261,6 +261,7 @@ if ($HPInfo.LoadBalancerType -eq "DepthFirst")
         }
 
         # ANCHOR would like to understand the logic behind setting up this sessionLimit var
+        # PMC: buffering
         if ($HPInfo.MaxSessionLimit -le 10)
         {
             $sessionlimit = $HPInfo.MaxSessionLimit - 1  
@@ -303,7 +304,7 @@ if ($HPInfo.LoadBalancerType -eq "DepthFirst")
                     $hostsessions = $SessionHost.Sessions
 
                     # ANCHOR not sure if this code was tested, $hostofsessions is always null, maybe it should be hostsessions, why -ne?
-                    if ($HPInfo.MaxSessionLimit -ne $hostofsessions)
+                    if ($HPInfo.MaxSessionLimit -ne $hostsessions)
                     {
                         if ($SessionHost.Status -ieq "UnAvailable")
                         {
