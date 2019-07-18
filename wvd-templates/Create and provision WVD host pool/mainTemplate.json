@@ -66,7 +66,7 @@
             "metadata": {
                 "description": "This prefix will be used in combination with the VM number to create the VM name. If using 'rdsh' as the prefix, VMs would be named 'rdsh-0', 'rdsh-1', etc. You should use a unique prefix to reduce name collisions in Active Directory."
             },
-            "defaultValue": "sampad"
+            "defaultValue": "<required>"
         },
         "rdshNumberOfInstances": {
             "type": "int",
@@ -112,28 +112,28 @@
             "metadata": {
                 "description": "(Required when rdshUseManagedDisks = False) The resource group containing the storage account of the image vhd file."
             },
-            "defaultValue": "sampa-vm-rg"
+            "defaultValue": "<required>"
         },
         "domainToJoin": {
             "type": "string",
             "metadata": {
                 "description": "FQDN of the AD Domain to which sesion host VMs are going to be joined. For example, 'contoso.com'."
             },
-            "defaultValue": "rdpgwcon.net"
+            "defaultValue": "<required>"
         },
         "existingDomainUPN": {
             "type": "string",
             "metadata": {
                 "description": "A username in the domain that has privileges to join the session hosts to the domain. For example, 'user1@contoso.com'."
             },
-            "defaultValue": "tstestadmin2@rdpgwcon.net"
+            "defaultValue": "<required>"
         },
         "existingDomainPassword": {
             "type": "securestring",
             "metadata": {
                 "description": "The password that corresponds to the existing domain username."
             },
-            "defaultValue": "8ighteenVi$ions"
+            "defaultValue": "<required>"
         },
         "ouPath": {
             "type": "string",
@@ -157,21 +157,21 @@
             "metadata": {
                 "description": "The name of the virtual network the VMs will be connected to."
             },
-            "defaultValue": "rdpgwcon-vnet"
+            "defaultValue": "<required>"
         },
         "existingSubnetName": {
             "type": "string",
             "metadata": {
                 "description": "The subnet the VMs will be placed in."
             },
-            "defaultValue": "default"
+            "defaultValue": "<required>"
         },
         "virtualNetworkResourceGroupName": {
             "type": "string",
             "metadata": {
                 "description": "The resource group containing the existing virtual network."
             },
-            "defaultValue": "rdpgwcon"
+            "defaultValue": "<required>"
         },
         "rdBrokerURL": {
             "type": "string",
@@ -199,7 +199,7 @@
             "metadata": {
                 "description": "The name of the hostpool to be created in the RDS Tenant."
             },
-            "defaultValue": "SampaHostPoolDavid9"
+            "defaultValue": "<required>"
         },
         "enablePersistentDesktop": {
             "type": "bool",
@@ -220,14 +220,14 @@
             "metadata": {
                 "description": "The template will fail if you enter a user account that requires MFA or an application that is secured by a certificate. The UPN or ApplicationId must be an RDS Owner in the WVD Tenant to create the hostpool or an RDS Owner of the host pool to provision the host pool with additional VMs."
             },
-            "defaultValue": "tstestadmin2@rdpgwcon.net"
+            "defaultValue": "<required>"
         },
         "tenantAdminPassword": {
             "type": "securestring",
             "metadata": {
                 "description": "The password that corresponds to the tenant admin UPN."
             },
-            "defaultValue": "8ighteenVi$ions"
+            "defaultValue": "<required>"
         },
         "isServicePrincipal": {
             "type": "bool",
@@ -238,7 +238,7 @@
         },
         "aadTenantId": {
             "type": "string",
-            "defaultValue": "rdpgwcon.onmicrosoft.com",
+            "defaultValue": "<required when isServicePrincipal>",
             "metadata": {
                 "description": "(Required when isServicePrincipal = True) This value identifies the Azure AD tenant of the service principal."
             }
@@ -325,17 +325,6 @@
           },
           "dependsOn": [
             "[resourceId('Microsoft.WindowsVirtualDesktop/hostpools/', parameters('HostPoolName'))]"
-          ]
-        },
-        {
-          "name": "[concat(variables('appgroupname'), '/', parameters('existingDomainUPN'))]",
-          "apiVersion": "2019-01-23-preview",
-          "type": "Microsoft.WindowsVirtualDesktop/applicationgroups/assignedusers",
-          "location": "[resourceGroup().location]",
-          "properties": {
-          },
-          "dependsOn": [
-            "[resourceId('Microsoft.WindowsVirtualDesktop/applicationgroups/', variables('appgroupname'))]"
           ]
         },
         {
